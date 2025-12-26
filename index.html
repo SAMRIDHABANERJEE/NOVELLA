@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novella – Community-Curated E-Books</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --ink: #1a1a1a;
+            --ash: #666666;
+            --mist: #f5f5f5;
+            --paper: #ffffff;
+            --gold: #d4a574;
+            --gold-light: #e8d5c1;
+            --accent: #c84c3d;
+            --border: #e0e0e0;
+            --serif: 'Crimson Pro', Georgia, serif;
+            --sans: 'DM Sans', system-ui, sans-serif;
+        }
+
+        body {
+            font-family: var(--sans);
+            color: var(--ink);
+            background: var(--mist);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        .header {
+            background: var(--paper);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .logo {
+            font-family: var(--serif);
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--ink);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .search-bar {
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 280px;
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-family: var(--sans);
+            transition: all 0.2s;
+            background: var(--mist);
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: var(--paper);
+            box-shadow: 0 2px 8px rgba(212, 165, 116, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--ash);
+            font-size: 0.9rem;
+        }
+
+        .profile-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: var(--paper);
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .profile-icon:hover {
+            transform: scale(1.05);
+        }
+
+        /* Hero Feature */
+        .hero {
+            background: linear-gradient(135deg, #2c3e50 0%, #3d5a73 50%, #547a96 100%);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.03"/></svg>');
+            pointer-events: none;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-text {
+            color: var(--paper);
+            animation: slideInLeft 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--gold-light);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .hero-title {
+            font-family: var(--serif);
+            font-size: 3rem;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-author {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stars {
+            color: var(--gold);
+            font-size: 1rem;
+        }
+
+        .rating-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+        }
+
+        .hero-synopsis {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .hero-review {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border-left: 3px solid var(--gold);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-review-text {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            font-style: italic;
+            line-height: 1.6;
+            color: var(--paper);
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-reviewer {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.75rem;
+            border-radius: 50px;
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--paper);
+            color: var(--ink);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--paper);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--paper);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-cover {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: slideInRight 0.8s ease-out 0.4s both;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .cover-image {
+            max-width: 400px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s;
+        }
+
+        .cover-image:hover {
+            transform: scale(1.02) rotate(1deg);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .section-title {
+            font-family: var(--serif);
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .filter-select {
+            padding: 0.6rem 1.25rem;
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            background: var(--paper);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-select:hover {
+            border-color: var(--gold);
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 2px 8px rgba(212, 165, 116, 0.15);
+        }
+
+        /* Book Cards */
+        .books-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .book-card {
+            background: var(--paper);
+            border-radius: 16px;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            border: 1px solid transparent;
+            animation: fadeInUp 0.5s ease-out both;
+        }
+
+        .book-card:nth-child(1) { animation-delay: 0.1s; }
+        .book-card:nth-child(2) { animation-delay: 0.2s; }
+        .book-card:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .book-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            border-color: var(--gold-light);
+            transform: translateY(-4px);
+        }
+
+        .book-cover-container {
+            position: relative;
+        }
+
+        .book-cover {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s;
+        }
+
+        .book-card:hover .book-cover {
+            transform: scale(1.03);
+        }
+
+        .book-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-header {
+            margin-bottom: 1rem;
+        }
+
+        .book-title {
+            font-family: var(--serif);
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.25rem;
+            letter-spacing: -0.01em;
+        }
+
+        .book-author {
+            font-size: 1rem;
+            color: var(--ash);
+            margin-bottom: 0.75rem;
+        }
+
+        .book-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .book-rating .stars {
+            color: var(--gold);
+        }
+
+        .rating-count {
+            color: var(--ash);
+            font-size: 0.9rem;
+        }
+
+        .synopsis {
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .synopsis-text {
+            color: var(--ink);
+            line-height: 1.7;
+            font-size: 0.975rem;
+        }
+
+        .synopsis-text.collapsed {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .read-more {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            display: inline-block;
+            transition: color 0.2s;
+        }
+
+        .read-more:hover {
+            color: var(--gold);
+        }
+
+        .community-section {
+            background: var(--mist);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 3px solid var(--gold);
+        }
+
+        .community-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--ash);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .community-review {
+            font-family: var(--serif);
+            font-size: 1.05rem;
+            font-style: italic;
+            line-height: 1.6;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+
+        .reviewer-name {
+            color: var(--ash);
+            font-size: 0.9rem;
+            font-style: normal;
+        }
+
+        .book-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: auto;
+            padding-top: 1.5rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--ink);
+            border: 2px solid var(--border);
+            padding: 0.65rem 1.5rem;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--gold);
+            background: var(--gold-light);
+            transform: translateY(-1px);
+        }
+
+        .btn-link {
+            background: transparent;
+            color: var(--accent);
+            border: none;
+            padding: 0.65rem 1rem;
+            font-weight: 600;
+        }
+
+        .btn-link:hover {
+            color: var(--gold);
+            background: transparent;
+            transform: translateY(-1px);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero-cover {
+                order: -1;
+            }
+
+            .cover-image {
+                max-width: 300px;
+            }
+
+            .book-card {
+                grid-template-columns: 1fr;
+            }
+
+            .book-cover-container {
+                max-width: 200px;
+                margin: 0 auto;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .search-bar input {
+                width: 200px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .filters {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .filter-select {
+                width: 100%;
+            }
+
+            .book-actions {
+                flex-direction: column;
+            }
+
+            .search-bar input {
+                width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">Novella</div>
+            <ul class="nav-links">
+                <li><a href="#browse">Browse</a></li>
+                <li><a href="#charts">Charts</a></li>
+                <li><a href="#community">Community</a></li>
+            </ul>
+            <div class="nav-right">
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="Search books & authors...">
+                </div>
+                <div class="profile-icon">JD</div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Feature -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-text">
+                <div class="hero-label">Featured Review of the Week</div>
+                <h1 class="hero-title">The Glass Conservatory</h1>
+                <div class="hero-author">by Elena Marchetti</div>
+                <div class="hero-rating">
+                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                    <span class="rating-text">4.9 (2,847 ratings)</span>
+                </div>
+                <p class="hero-synopsis">
+                    In 1920s Vienna, a reclusive botanist discovers an impossible flower growing in her glass conservatory—one that seems to respond to human emotion. As war looms and her secrets unravel, she must choose between preserving her sanctuary or exposing a truth that could change the world.
+                </p>
+                <div class="hero-review">
+                    <p class="hero-review-text">
+                        "A haunting meditation on beauty, isolation, and the cost of obsession. Marchetti's prose is like watching fog settle over a garden—you can feel every sentence. This is literary fiction at its finest."
+                    </p>
+                    <div class="hero-reviewer">— Marcus Chen</div>
+                </div>
+                <div class="hero-cta">
+                    <button class="btn btn-primary">Read Sample</button>
+                    <button class="btn btn-secondary">See All 287 Reviews →</button>
+                </div>
+            </div>
+            <div class="hero-cover">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%232c5f4f'/%3E%3Cstop offset='100%25' style='stop-color:%23487a6a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='600' fill='url(%23g1)'/%3E%3Ctext x='50%25' y='45%25' font-family='Georgia, serif' font-size='36' font-weight='600' fill='white' text-anchor='middle'%3EThe Glass%3C/text%3E%3Ctext x='50%25' y='55%25' font-family='Georgia, serif' font-size='36' font-weight='600' fill='white' text-anchor='middle'%3EConservatory%3C/text%3E%3Ctext x='50%25' y='75%25' font-family='sans-serif' font-size='18' fill='rgba(255,255,255,0.7)' text-anchor='middle'%3EElena Marchetti%3C/text%3E%3Cpath d='M 200 350 Q 250 320 300 350 T 400 350' stroke='rgba(255,255,255,0.3)' stroke-width='2' fill='none'/%3E%3Ccircle cx='200' cy='380' r='3' fill='rgba(255,255,255,0.4)'/%3E%3Ccircle cx='250' cy='365' r='4' fill='rgba(255,255,255,0.5)'/%3E%3Ccircle cx='300' cy='380' r='3' fill='rgba(255,255,255,0.4)'/%3E%3C/svg%3E" alt="The Glass Conservatory" class="cover-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="section-header">
+            <h2 class="section-title">Trending Now</h2>
+            <div class="filters">
+                <select class="filter-select">
+                    <option>All Genres ▼</option>
+                    <option>Science Fiction</option>
+                    <option>Romance</option>
+                    <option>Mystery</option>
+                    <option>Literary Fiction</option>
+                </select>
+                <select class="filter-select">
+                    <option>Highest Rated ▼</option>
+                    <option>Most Recent</option>
+                    <option>Most Reviewed</option>
+                    <option>Trending</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="books-grid">
+            <!-- Book Card 1 -->
+            <article class="book-card">
+                <div class="book-cover-container">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%231a1a2e'/%3E%3Cstop offset='100%25' style='stop-color:%2316213e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='300' fill='url(%23g2)'/%3E%3Ccircle cx='100' cy='120' r='40' fill='none' stroke='rgba(100,149,237,0.4)' stroke-width='2'/%3E%3Ccircle cx='100' cy='120' r='50' fill='none' stroke='rgba(100,149,237,0.3)' stroke-width='1'/%3E%3Ccircle cx='100' cy='120' r='60' fill='none' stroke='rgba(100,149,237,0.2)' stroke-width='1'/%3E%3Ctext x='50%25' y='60%25' font-family='Georgia, serif' font-size='22' font-weight='600' fill='white' text-anchor='middle'%3EOrbit's%3C/text%3E%3Ctext x='50%25' y='68%25' font-family='Georgia, serif' font-size='22' font-weight='600' fill='white' text-anchor='middle'%3EEdge%3C/text%3E%3Ctext x='50%25' y='85%25' font-family='sans-serif' font-size='12' fill='rgba(255,255,255,0.6)' text-anchor='middle'%3EKaelen Vance%3C/text%3E%3C/svg%3E" alt="Orbit's Edge" class="book-cover">
+                </div>
+                <div class="book-details">
+                    <div class="book-header">
+                        <h3 class="book-title">Orbit's Edge</h3>
+                        <div class="book-author">Kaelen Vance</div>
+                        <div class="book-rating">
+                            <span class="stars">⭐⭐⭐⭐☆</span>
+                            <span class="rating-count">4.2 (1,240 ratings)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="synopsis">
+                        <p class="synopsis-text collapsed" id="synopsis1">
+                            Humanity's last colony ship is stranded in a decaying orbit around a hostile exoplanet. When the engines fail, engineering commander Jax must decide who gets to survive in the limited escape pods. As resources dwindle and tensions mount, Jax discovers that the ship's malfunction may not be an accident—and the real enemy might be among the crew.
+                        </p>
+                        <span class="read-more" onclick="toggleSynopsis('synopsis1', this)">Read More ▼</span>
+                    </div>
+
+                    <div class="community-section">
+                        <div class="community-label">The Community Take</div>
+                        <p class="community-review">
+                            "Terrifying stakes and hard science. It reads like 'The Martian' meets 'Lord of the Flies.' The ending is controversial, but I couldn't stop turning pages."
+                        </p>
+                        <div class="reviewer-name">— Raj Patel</div>
+                    </div>
+
+                    <div class="book-actions">
+                        <button class="btn btn-outline">Read Sample</button>
+                        <button class="btn btn-link">See All 154 Reviews →</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Book Card 2 -->
+            <article class="book-card">
+                <div class="book-cover-container">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g3' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff9a76'/%3E%3Cstop offset='100%25' style='stop-color:%23ffeaa7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='300' fill='url(%23g3)'/%3E%3Cpath d='M 100 80 Q 80 100 100 120 Q 120 100 100 80 Z' fill='rgba(255,255,255,0.3)'/%3E%3Cpath d='M 60 140 Q 70 150 80 140 L 85 180 L 75 180 Z' fill='rgba(255,255,255,0.4)'/%3E%3Cpath d='M 120 140 Q 130 150 140 140 L 145 180 L 135 180 Z' fill='rgba(255,255,255,0.4)'/%3E%3Cpath d='M 80 180 Q 100 190 120 180 L 125 210 L 75 210 Z' fill='rgba(255,255,255,0.5)'/%3E%3Ctext x='50%25' y='78%25' font-family='Georgia, serif' font-size='20' font-weight='600' fill='%23d35400' text-anchor='middle'%3ERecipes for%3C/text%3E%3Ctext x='50%25' y='85%25' font-family='Georgia, serif' font-size='20' font-weight='600' fill='%23d35400' text-anchor='middle'%3EDisaster%3C/text%3E%3Ctext x='50%25' y='93%25' font-family='sans-serif' font-size='12' fill='%23e67e22' text-anchor='middle'%3EMia Sato%3C/text%3E%3C/svg%3E" alt="Recipes for Disaster" class="book-cover">
+                </div>
+                <div class="book-details">
+                    <div class="book-header">
+                        <h3 class="book-title">Recipes for Disaster</h3>
+                        <div class="book-author">Mia Sato</div>
+                        <div class="book-rating">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating-count">4.8 (512 ratings)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="synopsis">
+                        <p class="synopsis-text collapsed" id="synopsis2">
+                            A heartwarming contemporary romance about a disgraced Michelin-star chef who returns to her small hometown to run her grandmother's chaotic, failing bakery. Between burnt croissants, nosy neighbors, and an annoyingly attractive food critic who's determined to write an exposé, she discovers that sometimes the recipe for happiness requires starting from scratch.
+                        </p>
+                        <span class="read-more" onclick="toggleSynopsis('synopsis2', this)">Read More ▼</span>
+                    </div>
+
+                    <div class="community-section">
+                        <div class="community-label">The Community Take</div>
+                        <p class="community-review">
+                            "This book is like a warm hug. It made me laugh out loud on the train, and it made me incredibly hungry. The perfect weekend comfort read."
+                        </p>
+                        <div class="reviewer-name">— Sarah Jenkins</div>
+                    </div>
+
+                    <div class="book-actions">
+                        <button class="btn btn-outline">Read Sample</button>
+                        <button class="btn btn-link">See All 88 Reviews →</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Book Card 3 -->
+            <article class="book-card">
+                <div class="book-cover-container">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='300'%3E%3Cdefs%3E%3ClinearGradient id='g4' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%232c3e50'/%3E%3Cstop offset='100%25' style='stop-color:%23000000'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='300' fill='url(%23g4)'/%3E%3Crect x='40' y='80' width='120' height='140' fill='none' stroke='rgba(255,215,0,0.4)' stroke-width='2' rx='4'/%3E%3Crect x='35' y='75' width='130' height='150' fill='none' stroke='rgba(255,215,0,0.3)' stroke-width='1' rx='4'/%3E%3Cpath d='M 60 120 L 80 120 L 80 140 L 60 140 Z M 120 120 L 140 120 L 140 140 L 120 140 Z' fill='rgba(255,215,0,0.2)'/%3E%3Ctext x='50%25' y='72%25' font-family='Georgia, serif' font-size='18' font-weight='600' fill='%23f1c40f' text-anchor='middle'%3EThe Midnight%3C/text%3E%3Ctext x='50%25' y='78%25' font-family='Georgia, serif' font-size='18' font-weight='600' fill='%23f1c40f' text-anchor='middle'%3EArchive%3C/text%3E%3Ctext x='50%25' y='88%25' font-family='sans-serif' font-size='12' fill='rgba(241,196,15,0.7)' text-anchor='middle'%3EThomas Grey%3C/text%3E%3C/svg%3E" alt="The Midnight Archive" class="book-cover">
+                </div>
+                <div class="book-details">
+                    <div class="book-header">
+                        <h3 class="book-title">The Midnight Archive</h3>
+                        <div class="book-author">Thomas Grey</div>
+                        <div class="book-rating">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating-count">4.6 (3,102 ratings)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="synopsis">
+                        <p class="synopsis-text collapsed" id="synopsis3">
+                            When archivist Clara Voss discovers a hidden collection of letters in the bowels of a century-old library, she uncovers evidence of a conspiracy that reaches into the highest levels of government. But someone wants those letters to stay buried, and they'll stop at nothing to ensure Clara's silence. A literary thriller that blends historical mystery with contemporary suspense.
+                        </p>
+                        <span class="read-more" onclick="toggleSynopsis('synopsis3', this)">Read More ▼</span>
+                    </div>
+
+                    <div class="community-section">
+                        <div class="community-label">The Community Take</div>
+                        <p class="community-review">
+                            "Grey has crafted something rare: a thriller that's genuinely intelligent. Every clue matters, every character has depth. I guessed wrong until the final chapter—and loved every minute of it."
+                        </p>
+                        <div class="reviewer-name">— Alicia Rodriguez</div>
+                    </div>
+
+                    <div class="book-actions">
+                        <button class="btn btn-outline">Read Sample</button>
+                        <button class="btn btn-link">See All 421 Reviews →</button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <script>
+        function toggleSynopsis(id, button) {
+            const synopsis = document.getElementById(id);
+            const isCollapsed = synopsis.classList.contains('collapsed');
+            
+            if (isCollapsed) {
+                synopsis.classList.remove('collapsed');
+                button.textContent = 'Read Less ▲';
+            } else {
+                synopsis.classList.add('collapsed');
+                button.textContent = 'Read More ▼';
+            }
+        }
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Simulate search functionality
+        const searchInput = document.querySelector('.search-bar input');
+        searchInput.addEventListener('focus', function() {
+            this.placeholder = 'Try "science fiction" or "Elena Marchetti"';
+        });
+        searchInput.addEventListener('blur', function() {
+            this.placeholder = 'Search books & authors...';
+        });
+    </script>
+</body>
+</html>
